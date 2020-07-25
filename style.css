@@ -24,3 +24,10 @@ body {
 h3 {
   font-size: 65px;
 }
+
+#foot {
+  font-family: montserrat black;
+  color: white;
+  text-align: center;
+  padding-top: 45%;
+}

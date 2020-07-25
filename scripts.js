@@ -2,25 +2,36 @@ var gameTime = 0;
 var adTime = 0;
 var gameMinuteCount = 0;
 var adMinuteCount = 0;
-var whichTimer = 0;
+var whichTimer = "";
+var stop = false;
+var leftStop = false;
+var rightStop = false;
 
 document.addEventListener('keydown', function(event) {
-    if(event.keyCode == 37) {
+    if(event.keyCode == 37 && leftStop === false) {
         startTimerLeft();
-        whichTimer += 1;
+        whichTimer = "left";
     }
-    else if(event.keyCode == 39) {
+    if(event.keyCode == 39 && rightStop === false) {
         startTimerRight();
-        whichTimer -= 1;
+        whichTimer = "right";
+    }
+    if(event.keyCode == 32) {
+        stop = true;
+        whichTimer = "";
+        leftStop = false;
+        rightStop = false;
     }
 });
 
 function startTimerLeft(){
 
 // Counter1 Logic
-
+  stop = false;
+  leftStop = true;
+  rightStop = false;
   var myTimer = setInterval(function(){
-  if (whichTimer === 0){
+  if (whichTimer === "right" || stop === true){
     clearInterval(myTimer);
     return;
   }
@@ -34,16 +45,19 @@ function startTimerLeft(){
   if (gameTime >= 60){
     document.getElementById("gTimer").innerHTML = gameMinuteCount + "\'" + (gameTime - (60*gameMinuteCount)) + "\"";
   }
-
 },1000);
 }
+
+//
 
 function startTimerRight(){
 
 // Counter2 Logic
-
-var myTimer2 = setInterval(function(){
-    if (whichTimer === 1){
+  stop = false;
+  rightStop = true;
+  leftStop = false;
+   var myTimer2 = setInterval(function(){
+    if (whichTimer === "left" || stop === true){
       clearInterval(myTimer2);
       return;
     }
@@ -57,6 +71,5 @@ var myTimer2 = setInterval(function(){
   if (adTime >= 60){
     document.getElementById("aTimer").innerHTML = adMinuteCount + "\'" + (adTime - (60*adMinuteCount)) + "\"";
   }
-
 },1000);
 }
